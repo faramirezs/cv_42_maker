@@ -222,7 +222,6 @@ def build_story_with_layout(sections, config):
                     title = line.strip('# ').strip()
                     if title and not title_added:
                         header_content.append(Paragraph(title, title_style))
-                        header_content.append(Spacer(1, 4))
                         title_added = True
                 elif line.startswith('**') and line.endswith('**'):
                     # Subtitle (like **Software Engineer Intern**)
@@ -231,9 +230,8 @@ def build_story_with_layout(sections, config):
                                                    fontName=f'{font_family}', 
                                                    fontSize=font_sizes.get('title', 12.5), 
                                                    leading=font_sizes.get('title', 12.5) * 1.2,
-                                                   textColor=accent_primary, spaceAfter=8)
+                                                   textColor=accent_primary)
                     header_content.append(Paragraph(subtitle, subtitle_style))
-                    header_content.append(Spacer(1, 8))
                 elif line and title_added:
                     # Other header content (could be contact info, etc.)
                     formatted_line = format_markdown_text(line)
@@ -346,7 +344,23 @@ if __name__ == '__main__':
                           topMargin=top_margin, bottomMargin=bottom_margin)
 
     # Create frames for header and two columns
-    header_height = 60*mm  # Adjust based on content
+    # Calculate header height dynamically based on content
+    fonts_config = config.get('fonts', {})
+    font_sizes = fonts_config.get('sizes_pt', {})
+    
+    if header_content:
+        # Estimate height based on number of elements and font sizes
+        estimated_lines = len(header_content)
+        title_height = font_sizes.get('name', 30) * 1.2  # Title line height
+        subtitle_height = font_sizes.get('title', 12.5) * 1.2  # Subtitle line height
+        contact_height = font_sizes.get('contact', 9.5) * 1.2  # Contact line height
+        
+        # Calculate approximate header height (convert to mm)
+        header_height_pts = title_height + subtitle_height + (contact_height * max(0, estimated_lines - 2)) + 10
+        header_height = max(25*mm, min(header_height_pts * 0.35, 50*mm))  # Convert pts to mm (approx 0.35mm per pt)
+    else:
+        header_height = 25*mm  # Minimum header height if no content
+    
     content_height = page_h - top_margin - bottom_margin - header_height
     
     header_frame = Frame(left_margin, page_h - top_margin - header_height,

@@ -1,0 +1,86 @@
+# Custom Rules for HR Consultant Agent
+# Edit these values to change defaults and enforce preferences.
+# Schema version: 1
+
+version: 1
+
+# Default output style: ATS | Modern | Projects
+style_default: ATS
+
+# Locale/language settings: en-US | en-GB | de-DE | etc.
+locale: en-US
+
+redactions:
+  hide_phone: false
+  hide_address: true
+  anonymize_companies: false
+
+formatting:
+  date_format: "MMM YYYY"
+  bullet_symbol: "-"
+  max_pages: 1
+
+ordering:
+  # Define preferred section order in generated CVs
+  sections:
+    - Header
+    - Summary
+    - Skills
+    - Experience
+    - Projects
+    - Education
+    - Certifications
+    - Languages
+    - Links
+
+keywords_policy:
+  # Terms to force-include (if truthful) or avoid
+  required: []
+  preferred: []
+  banned: []
+
+wording:
+  # Map of preferred terms; key = prefer, value = alternatives to replace
+  prefer_terms:
+    lead: ["led", "owned", "drove"]
+    improved: ["optimized", "enhanced"]
+    built: ["implemented", "developed", "delivered"]
+  # List of terms to avoid entirely
+  avoid_terms:
+    - hardworking
+    - team player
+    - results-driven
+    - detail-oriented
+    - responsible for
+
+length_policy:
+  max_bullets_per_role: 5
+  # Optional: max lines for summary by style
+  summary_lines:
+    ATS: 4
+    Modern: 3
+    Projects: 3
+
+numbers_policy:
+  units: metric
+  show_quant: true
+
+privacy:
+  show_email: true
+  show_phone: true
+  show_city_only: true
+
+# Summary alignment and ATS constraints
+alignment:
+  enforce_summary_matches_job_offer: true
+  min_summary_keywords: 2
+ats:
+  single_column_only: true
+  forbid_tables_images_icons: true
+  enforce_standard_sections: true
+
+# Seniority length defaults (fallback if max_pages unset per profile)
+seniority_pages:
+  junior: 1
+  mid: 1
+  senior: 2

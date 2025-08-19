@@ -1,0 +1,258 @@
+
+template_name: "Two-Column Modern CV (A4) — Johnson Reference"
+version: 1.0.0
+goal: >
+  Recreate the one-page, two-column resume seen in the reference image with the same
+  layout, visual style, and ordering. Keep the file ATS-friendly, link-preserving,
+  and optimized for quantifiable impact.
+page:
+  size: A4        # alternatives: ["Letter"]. If Letter is used, scale content 0.96.
+  orientation: portrait
+  margins_mm:
+    top: 16
+    right: 16
+    bottom: 16
+    left: 16
+  background:
+    color: "#F7FAFF"         # very light blue/gray page background
+    pattern: "subtle-dots"   # optional; reduce opacity to 0.15
+    card:
+      radius_mm: 8
+      color: "#FFFFFF"
+      shadow: true
+fonts:
+  family_stack: ["Inter", "SF Pro Text", "Helvetica Neue", "Arial", "sans-serif"]
+  scale: 1.00        # global scale; use 0.96–1.04 if needed to fit one page
+  sizes_pt:
+    name: 30
+    title: 12.5
+    contact: 9.5
+    section_heading: 10.5     # small-caps/all-caps styling
+    body: 9.6
+    small: 8.6
+  weight:
+    name: 800
+    headings: 700
+    emphasis: 600
+    normal: 400
+colors:
+  text_primary: "#111827"     # near-black
+  text_muted: "#4B5563"       # gray-600
+  accent_primary: "#2EBCC6"   # teal
+  accent_secondary: "#80CBD9" # light cyan (used for icons/chips/bg)
+  link: "#1F9BB6"
+  divider: "#E5E7EB"
+header:
+  order: ["name", "tagline_roles", "contact"]      # exact order under the name block
+  layout:
+    avatar:
+      enabled: true
+      shape: "circle"
+      diameter_mm: 26
+      position: "top-right"          # floats inside the card header area
+      fallback_initials_bg: "#E0F7FA"
+    name:
+      case: "title"                   # "ELLEN JOHNSON" appears uppercased; keep Title or Upper
+      tracking: 0.2                   # letter spacing
+    tagline_roles:
+      separator: " | "                # e.g., "Digital Marketing Manager | Growth Hacking | Data Analysis"
+      color: "#0AA3B8"
+      emphasize_keywords: true
+    contact:
+      # order is important—match reference
+      items_order: ["email", "linkedin", "location", "website", "github", "phone"]
+      icons: true
+      icon_style: "outline"
+      spacing_em: 1.2
+      clickable: true                 # preserve actual hyperlinks
+      truncation:
+        max_chars: 60                 # truncate long URLs with ellipsis
+body:
+  # Two-column grid that matches reference proportions
+  columns:
+    left_width: 0.62
+    right_width: 0.38
+  gutters_mm: 8
+  order:
+    # Maintain this exact top-to-bottom flow inside each column
+    left: ["experience", "education", "languages"]
+    right: ["summary", "key_achievements", "skills", "certifications"]
+sections:
+  summary:
+    heading: "SUMMARY"
+    style: "paragraph"
+    max_lines: 8
+    guidance: >
+      3–5 compact sentences highlighting domain expertise, strongest tools,
+      and 2–3 business outcomes. Avoid first person. Include sector keywords.
+  key_achievements:
+    heading: "KEY ACHIEVEMENTS"
+    layout: "list-with-badges"        # each item: bold metric title + one-line explanation
+    max_items: 4
+    item:
+      icon_circle:
+        fill: "#2EBCC6"
+        glyph: "check"
+      title_style: "bold"
+      title_prefix_metric: true       # e.g., "45% User Acquisition Increase"
+      description_style: "small"
+      wrap_lines: 2
+  skills:
+    heading: "SKILLS"
+    layout: "chips"                   # pill-style tags
+    chip:
+      bg: "#E6FAFC"
+      border: false
+      text: "#111827"
+      padding_em: [0.35, 0.55]
+      radius_px: 18
+      gap_em: 0.35
+    categories:                       # optional buckets; if missing, flat list
+      enabled: false
+  certifications:
+    heading: "CERTIFICATION"
+    item_format:
+      title_link: true                # clickable course/cert title
+      provider_on_new_line: false
+      description_as_small: true
+      max_description_chars: 120
+  experience:
+    heading: "EXPERIENCE"
+    sort: "reverse-chronological"
+    max_roles: 6
+    role_format:
+      show_company_first: true
+      company_link: true
+      date_format: "MM/YYYY"          # display range "01/2022 – Present"
+      show_location: true
+      title_bold: true
+      header_layout: "Company | Dates | Location"  # second line for company metadata
+      bullets:
+        style: "•"
+        max_per_role: 6
+        max_line_length_chars: 95
+        spacing_em: 0.25
+        emphasize_numbers: true       # bold the numeric tokens and percentages
+        guidance: >
+          Use action + method + impact. Every bullet should include a measurable
+          outcome (%, $, time saved). Prefer cross-functional impacts and platform/tools.
+  education:
+    heading: "EDUCATION"
+    entries_order: "reverse-chronological"
+    show_city_state: true
+    date_format: "MM/YYYY"
+    item_layout:
+      degree_bold: true
+      institution_link: true
+      second_line: "dates | city_state"
+      max_entries: 2
+  languages:
+    heading: "LANGUAGES"
+    layout: "proficiency-dots"     # label + dot scale (0–5)
+    dot:
+      filled_color: "#111827"
+      hollow_color: "#D1D5DB"
+      size_px: 6
+    order_by: "proficiency_desc"
+links_and_projects:
+  rules:
+    include_in_contact_bar:
+      - linkedin
+      - website
+      - github                    # github appears if provided
+      - portfolio
+    project_links_in_experience: true   # embed GitHub/live links inline in bullets or role
+    display_style: "inline-link"        # never raw URLs unless requested
+    target: "_blank"
+md_mapping:
+  # How to read data from a Markdown source
+  expected_front_matter_keys:
+    - name
+    - tagline_roles             # array or pipe-separated string
+    - email
+    - phone
+    - location
+    - linkedin
+    - website
+    - github
+    - avatar                    # optional image path/URL
+  headings_map:
+    "## Summary": "summary"
+    "## Key Achievements": "key_achievements"
+    "## Skills": "skills"
+    "## Certifications": "certifications"
+    "## Experience": "experience"
+    "## Education": "education"
+    "## Languages": "languages"
+  parsing_rules:
+    summary: "take paragraph under '## Summary'"
+    key_achievements: "treat each top-level bullet as a separate achievement; split at ':' for metric title if present"
+    skills: "collect comma- or bullet-separated tokens; remove duplicates; keep 3–5 strongest first"
+    certifications: "for each bullet: [Title](link) — short description"
+    experience: >
+      For each '###' entry under '## Experience', parse the header as
+      'Job Title @ Company (MM/YYYY–MM/YYYY | City, ST)' where parentheses are optional.
+      The bullets under each '###' are role bullets.
+    education: >
+      For each bullet: 'Degree — Institution (MM/YYYY–MM/YYYY | City, ST)'
+      Allow institution to be a link in Markdown.
+    languages: >
+      Bullets 'Language — Level' where Level in [Native, Fluent, Advanced, Intermediate, Basic].
+ats_and_fit_rules:
+  optimize_for_one_page: true
+  hard_limits:
+    max_total_words: 650           # soft cap; the layout engine must enforce
+    left_column_min_ratio: 0.58    # avoid right column overflow
+  overflow_strategy:
+    - "shrink_font_by: 0.96"
+    - "reduce_bullets_to: 4 per role (oldest first)"
+    - "truncate_achievements_to: 3"
+    - "collapse_cert_descriptions"
+  content_quality_checks:
+    - "Every experience bullet contains at least one number or %"
+    - "Dates use uniform format and include 'Present' where applicable"
+    - "Remove first-person pronouns"
+    - "No more than 15 skills chips; prioritize role-relevant tools"
+    - "All links are active and deduplicated"
+rendering:
+  dividers:
+    show: true
+    color: "#E5E7EB"
+    thickness_px: 1
+    spacing_em: 0.85
+  section_headings:
+    case: "upper"
+    tracking_em: 0.06
+    color: "#111827"
+  bullets:
+    indent_em: 0.0
+    gap_em: 0.25
+  chips_row_wrap: true
+  clickable_links: true
+  keep_on_one_page: true
+  pdf_output:
+    filename_pattern: "{last}_{first}_Resume.pdf"
+    embed_links: true
+    image_compression: "medium"
+conditional_visibility:
+  hide_if_empty:
+    - certifications
+    - languages
+    - key_achievements
+    - avatar
+  collapse_rules:
+    education_if_experience_entries_gt: 5    # keep one page
+    summary_if_total_words_gt: 700           # trim to 3 lines
+validation:
+  required_fields:
+    - name
+    - email
+    - location
+    - experience
+  fail_on_missing_required: true
+notes_for_maintainers: >
+  This template replicates the proportions and flow from the reference: a rounded
+  white card on a light background, name-and-tagline header, left-dominant column
+  for Experience/Education/Languages, and a right column for Summary, metric-first
+  achievements, skills chips, and brief certifications. Keep hyperlinks active,
+  emphasize quantified impact, and prefer tool names aligned with the target role.

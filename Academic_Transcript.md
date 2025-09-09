@@ -16,6 +16,7 @@
 | fract-ol | 115 | 60 H | Render Mandelbrot and Julia fractals with zoom and mouse controls in C. |
 | push_swap | 100 | 60 H | Sort a stack with a minimal set of operations using sorting algorithms in C. |
 | minitalk | 100 | 50 H | Exchange messages between processes via UNIX signals in C. |
+| FdF | 105 | 60 H | 3D wireframe rendering using a basic graphics window and event handling in C. |
 | **Rank 3** | | | |
 | minishell | 101 | 210 H | Build a simple shell handling commands, paths, and env variables in C. |
 | Philosophers | 100 | 70 H | Learn concurrency using threads and mutexes in the dining problem in C. |
